@@ -1,4 +1,4 @@
-import { injectable, inject } from 'inversify';
+import { injectable, inject, postConstruct } from 'inversify';
 import { CompositeTreeNode, TreeModelImpl } from '@theia/core/lib/browser';
 import { GroupNode, SampleTree } from './sample-tree';
 import { Group, Person } from '../sample';
@@ -12,7 +12,10 @@ export class SampleTreeModel extends TreeModelImpl {
         return this.tree;
     }
 
+    @postConstruct()
     async init(): Promise<void> {
+        super.init();
+        
         this.tree.root = undefined;
 
         const person: Person = {
